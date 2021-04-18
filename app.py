@@ -404,8 +404,9 @@ app.layout = html.Div([
     
     html.H1("Visualisation 2 (V2)"),
     html.H3('Trade volumes by day and hour of week aggregated by week (interactive)'),
-    dcc.Graph(id='vis2', figure=vis2()),
-    
+    dcc.Loading(
+        dcc.Graph(id='vis2', figure=vis2()),
+    )
     # html.H1("Visualisation 3 (V3)"),
     # html.H3('Trade volumes over the year'),
     # dcc.Graph(id='vis3', figure=vis3()),
