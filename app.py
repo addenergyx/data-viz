@@ -68,69 +68,7 @@ def vis1():
     return fig
 
 def vis2():
-    seasonality = pd.read_csv("https://raw.githubusercontent.com/addenergyx/datasets/main/trading%20data%20export%20with%20results.csv", parse_dates=['Trading day'], dayfirst=True)
-    
-    seasonality['Week_Number'] = seasonality['Trading day'].dt.strftime('%U')
-    
-    seasonality['week_start'] = seasonality['Trading day'].dt.to_period('W').apply(lambda r: r.start_time)
-    
-    seasonality['Trading day'] = seasonality['Trading day'].apply(lambda x :calendar.day_name[x.weekday()])
-    
-    seasonality['Trading_time'] = pd.to_timedelta(seasonality['Trading time'])
-    seasonality['Trading_time'] = seasonality['Trading_time'].apply(lambda x : int(x.seconds /3600))
-    
-    s_buys = seasonality[seasonality['Type'] == 'Buy']
-    s_sells = seasonality[seasonality['Type'] == 'Sell']
-    
-    s_buys['Trading_time'] = pd.to_timedelta(s_buys['Trading time'])
-    s_buys['Trading_time'] = s_buys['Trading_time'].apply(lambda x : int(x.seconds /3600))
-    s_buys = s_buys[['Trading day','Trading_time','Week_Number','week_start']]
-    s_buys = s_buys.groupby(['week_start', 'Trading day','Trading_time']).size().reset_index().rename(columns={0:'Buy Count'})
-    
-    s_sells['Trading_time'] = pd.to_timedelta(s_sells['Trading time'])
-    s_sells['Trading_time'] = s_sells['Trading_time'].apply(lambda x : int(x.seconds /3600))
-    s_sells = s_sells[['Trading day','Trading_time','Week_Number','week_start']]
-    s_sells = s_sells.groupby(['week_start', 'Trading day','Trading_time']).size().reset_index().rename(columns={0:'Sell Count'})
-    
-    seasonality_df = seasonality.groupby(['week_start', 'Trading day','Trading_time']).size().reset_index().rename(columns={0:'Count'})
-    
-    seasonality_df = seasonality_df.merge(s_buys, on=['week_start', 'Trading day','Trading_time'], how='left').merge(s_sells, on=['week_start', 'Trading day','Trading_time'], how='left')
-    
-    seasonality_df = seasonality_df.fillna(0)
-    
-    seasonality_df['pct_buy'] = seasonality_df['Buy Count'] / seasonality_df['Count']
-    
-    seasonality_df['Trading_time'] = [f'0{x}:00' if x < 10 else f'{x}:00' for x in seasonality_df['Trading_time']]
-    
-    weeks = seasonality_df['week_start'].unique()
-    days = seasonality_df['Trading day'].unique()
-    times = seasonality_df['Trading_time'].unique()
-    
-    for week in weeks:
-        df = seasonality_df[seasonality_df['week_start'] == week]
-    
-        for time in times:
-            for day in days:
-                
-                if not ((df['Trading day'] == day) & (df['Trading_time'] == time)).any():
-                    seasonality_df.loc[len(seasonality_df)] = [week, day, time, 0,0,0,0]
-       
-    seasonality_df = seasonality_df.sort_values('week_start', ascending=True)
-    
-    seasonality_df['week_start'] = seasonality_df['week_start'].dt.strftime('%d-%m-%Y')
-    
-    seasonality_df = seasonality_df.reset_index(drop=True)
-    
-    i = 0
-    lis = []
-    for x in range(len(seasonality_df['week_start'])):
-        if x % 75 == 0:
-            i+= 1
-            lis.append(i)
-        else: 
-            lis.append(i)
-    
-    seasonality_df['week'] = lis
+    seasonality_df = pd.read_csv("https://raw.githubusercontent.com/addenergyx/datasets/main/animated.csv")
     
     fig = px.scatter(seasonality_df, x="Trading_time", y="Trading day",
     	         size="Count", color="pct_buy", color_continuous_scale='RdBu', color_continuous_midpoint=0.5,
@@ -402,11 +340,11 @@ app.layout = html.Div([
     html.H3("Trade volumes by day and hour of week"),
     dcc.Graph(id='vis1', figure=vis1()),
     
-    # html.H1("Visualisation 2 (V2)"),
-    # html.H3('Trade volumes by day and hour of week aggregated by week (interactive)'),
-    # dcc.Loading(
-    #     dcc.Graph(id='vis2', figure=vis2()),
-    # )
+    html.H1("Visualisation 2 (V2)"),
+    html.H3('Trade volumes by day and hour of week aggregated by week (interactive)'),
+    dcc.Loading(
+        dcc.Graph(id='vis2', figure=vis2()),
+    ),
     
     html.H1("Visualisation 3 (V3)"),
     html.H3('Trade volumes over the year'),
