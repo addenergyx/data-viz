@@ -409,6 +409,16 @@ app.layout = html.Div([
     
     html.H1("Visualisation 4 (V4)"),
     html.H3('Treemap of trades aggregated by Sector and Industry'),
+    dcc.RadioItems(
+    options=[
+        {'label': 'Red-Blue (Colourblind safe)', 'value': 'RdBu'},
+        {'label': 'Red-Green', 'value': 'RdYlGn'},
+    ],
+    value='RdBu',
+    labelStyle={'display': 'inline-block'},
+    id='colours'
+    ),
+    html.Div(style={'margin':'20px'}),
     dcc.Graph(id='vis4', figure=vis4()),
     
     html.H1("Visualisation 5 (V5)"),
@@ -436,6 +446,11 @@ app.layout = html.Div([
               [Input("ticker-dropdown", "value")])
 def event_a(ticker):
     return performance_chart(ticker)
+
+@app.callback(Output('vis4','figure'), 
+              [Input("colours", "value")])
+def event_b(colour):
+    return vis4(colour)
 
 # Run app and display result inline in the notebook
 if __name__ == '__main__':
