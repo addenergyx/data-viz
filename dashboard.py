@@ -20,6 +20,7 @@ from datetime import datetime
 from pandas_datareader import data as web
 from plotly.subplots import make_subplots
 import calendar
+pd.options.mode.chained_assignment = None  # default='warn'
 
 def vis1():
     seasonality = pd.read_csv("https://raw.githubusercontent.com/addenergyx/datasets/main/trading%20data%20export%20with%20results.csv", parse_dates=['Trading day'], dayfirst=True)
@@ -303,7 +304,9 @@ def performance_chart(ticker='TSLA'):
                     high=index['High'],
                     low=index['Low'],
                     close=index['Adj Close'],
-                    name='Stock')])
+                    name='Stock',
+                    #increasing_line_color= 'blue', decreasing_line_color= 'red'
+                    )])
 
     # fig = go.Candlestick(x=index['Date'],
     #             open=index['Open'],
@@ -454,7 +457,7 @@ def event_b(colour):
 
 # Run app and display result inline in the notebook
 if __name__ == '__main__':
-    app.run_server() 
+    app.run_server(debug=True, threaded=True, use_reloader=False) 
 
 
 
