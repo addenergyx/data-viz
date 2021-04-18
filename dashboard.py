@@ -58,7 +58,7 @@ def vis1():
              size_max=40, range_color=[-100,100]
                  )
 
-    fig.update_yaxes(categoryorder='array', categoryarray= ['Friday', 'Thursday', 'Wednesday', 'Tuesday', 'Monday'])
+    fig.update_yaxes(title='Weekday', categoryorder='array', categoryarray= ['Friday', 'Thursday', 'Wednesday', 'Tuesday', 'Monday'])
     #fig.update_yaxes(categoryorder='array', categoryarray= ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'])
     fig.update_xaxes(categoryorder='array', categoryarray= [f'0{x}:00' if x < 10 else f'{x}:00' for x in range(7,21)])
     fig.layout.yaxis.showgrid=False
@@ -136,7 +136,7 @@ def vis2():
                      hover_name="Count", animation_frame='week',
                  size_max=50
                      )
-    fig.update_yaxes(categoryorder='array', categoryarray= ['Friday', 'Thursday', 'Wednesday', 'Tuesday', 'Monday'])
+    fig.update_yaxes(title='Weekday', categoryorder='array', categoryarray= ['Friday', 'Thursday', 'Wednesday', 'Tuesday', 'Monday'])
     fig.update_xaxes(categoryorder='array', categoryarray= [f'0{x}:00' if x < 10 else f'{x}:00' for x in range(7,21)])
     #fig.update_layout(transition = {'duration': 50000}, margin=dict(l=0,r=0,b=0,t=0))
     fig.layout.updatemenus[0].buttons[0].args[1]["frame"]["duration"] = 1000
@@ -175,7 +175,7 @@ def vis3():
     
     return fig
     
-def vis4():
+def vis4(colour='RdBu'):
     trades = pd.read_csv("https://raw.githubusercontent.com/addenergyx/datasets/main/trading%20data%20export%20with%20results.csv", parse_dates=['Trading day'])
     
     trades['Result'] = trades['Result'].fillna(0.0)
@@ -202,7 +202,7 @@ def vis4():
     b = b[b['Result']!=0]
     
     fig = px.treemap(c, path=['Sector', 'Industry', 'Name'], values='count', color='Result',
-                          color_continuous_scale='RdBu', color_continuous_midpoint=0, range_color=[-1000,1000], 
+                          color_continuous_scale=colour, color_continuous_midpoint=0, range_color=[-1000,1000], 
                           #hover_data=['Ticker', 'MARKET VALUE', 'PCT']
                           )
             
@@ -425,10 +425,10 @@ app.layout = html.Div([
             options=tickers,
             value=tickers[0]['value'],
             searchable=True,
-            #style={'margin-top':'50px'}
+            style={'margin-bottom':'50px'}
           ),
       ]),
-    html.Div(style={'margin':'20px'}),
+    #html.Div(style={'margin':'20px'}),
     ])
 # Define callback to update graph
 
