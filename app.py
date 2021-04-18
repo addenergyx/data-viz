@@ -20,7 +20,7 @@ from datetime import datetime
 from pandas_datareader import data as web
 from plotly.subplots import make_subplots
 import calendar
-pd.options.mode.chained_assignment = None  # default='warn'
+#pd.options.mode.chained_assignment = None  # default='warn'
 
 def vis1():
     seasonality = pd.read_csv("https://raw.githubusercontent.com/addenergyx/datasets/main/trading%20data%20export%20with%20results.csv", parse_dates=['Trading day'], dayfirst=True)
