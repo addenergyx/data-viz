@@ -390,6 +390,9 @@ tickers = [company(x) for x in portfolio['Ticker'].drop_duplicates()]
 
 # Build App
 app = dash.Dash(__name__)
+
+server = app.server
+
 app.layout = html.Div([
     
     html.H1("Visualisation 1 (V1)"),
@@ -425,7 +428,7 @@ app.layout = html.Div([
             #style={'margin-top':'50px'}
           ),
       ]),
-    #html.H1("Vis 2"),
+    html.Div(style={'margin':'20px'}),
     ])
 # Define callback to update graph
 
