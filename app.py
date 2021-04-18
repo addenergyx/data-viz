@@ -164,8 +164,9 @@ def vis4(colour='RdBu'):
     
 def stock_split_adjustment(r):
     
-    portfolio = pd.read_csv("https://raw.githubusercontent.com/addenergyx/datasets/main/trading%20data%20export%20with%20results.csv", parse_dates=['Trading day'], dayfirst=True)
-        
+    #portfolio = pd.read_csv("https://raw.githubusercontent.com/addenergyx/datasets/main/trading%20data%20export%20with%20results.csv", parse_dates=['Trading day'], dayfirst=True)
+    portfolio = pd.read_csv("trading data export with results.csv", parse_dates=['Trading day'], dayfirst=True)
+
     ticker = portfolio[portfolio['Ticker'] == r.Ticker]['YF_TICKER'].values[0]    
 
     aapl = yf.Ticker(ticker)
@@ -179,8 +180,9 @@ def stock_split_adjustment(r):
 
 def get_buy_sell(ticker):
     
-    portfolio = pd.read_csv("https://raw.githubusercontent.com/addenergyx/datasets/main/trading%20data%20export%20with%20results.csv", parse_dates=['Trading day'], dayfirst=True)
-    
+    #portfolio = pd.read_csv("https://raw.githubusercontent.com/addenergyx/datasets/main/trading%20data%20export%20with%20results.csv", parse_dates=['Trading day'], dayfirst=True)
+    portfolio = pd.read_csv("trading data export with results.csv", parse_dates=['Trading day'], dayfirst=True)
+
     df = portfolio[portfolio['Ticker'] == ticker]
 
     #df['Execution_Price'] = df['Price / share'] # Convert price to original currency
@@ -200,7 +202,8 @@ def performance_chart(ticker='TSLA'):
 
     #ticker = 'NG'
 
-    portfolio = pd.read_csv("https://raw.githubusercontent.com/addenergyx/datasets/main/trading%20data%20export%20with%20results.csv", parse_dates=['Trading day'], dayfirst=True)
+    #portfolio = pd.read_csv("https://raw.githubusercontent.com/addenergyx/datasets/main/trading%20data%20export%20with%20results.csv", parse_dates=['Trading day'], dayfirst=True)
+    portfolio = pd.read_csv("trading data export with results.csv", parse_dates=['Trading day'], dayfirst=True)
 
     buys, sells = get_buy_sell(ticker) 
 
