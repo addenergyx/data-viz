@@ -376,36 +376,37 @@ app.layout = html.Div([
     html.Div(style={'margin':'20px'}),
     dcc.Graph(id='vis4', figure=vis4()),
     
-    # html.H1("Visualisation 5 (V5)"),
-    # html.H3('OHLC + Volume and successful/unsuccessful trades (interactive).'),
-    # html.H6('Please note can take a while to load'),
-    # dcc.Loading(
-    #     dcc.Graph(id='graphy'),
-    # ),
+    html.H1("Visualisation 5 (V5)"),
+    html.H3('OHLC + Volume and successful/unsuccessful trades (interactive).'),
+    html.H6('Please note can take a while to load'),
+    dcc.Loading(
+        dcc.Graph(id='graphy'),
+    ),
         
-    # html.Div(
-    #        [
-    #       dcc.Dropdown(
-    #         id='ticker-dropdown',
-    #         options=tickers,
-    #         value=tickers[0]['value'],
-    #         searchable=True,
-    #         style={'margin-bottom':'50px'}
-    #       ),
-    #   ]),
-    #html.Div(style={'margin':'20px'}),
+    html.Div(
+            [
+          dcc.Dropdown(
+            id='ticker-dropdown',
+            options=tickers,
+            value=tickers[0]['value'],
+            searchable=True,
+            style={'margin-bottom':'50px'}
+          ),
+      ]),
+    html.Div(style={'margin':'20px'}),
+    
     ])
 # Define callback to update graph
 
-# @app.callback(Output('graphy','figure'), 
-#               [Input("ticker-dropdown", "value")])
-# def event_a(ticker):
-#     return performance_chart(ticker)
+@app.callback(Output('graphy','figure'), 
+              [Input("ticker-dropdown", "value")])
+def event_a(ticker):
+    return performance_chart(ticker)
 
-# @app.callback(Output('vis4','figure'), 
-#               [Input("colours", "value")])
-# def event_b(colour):
-#     return vis4(colour)
+@app.callback(Output('vis4','figure'), 
+              [Input("colours", "value")])
+def event_b(colour):
+    return vis4(colour)
 
 @app.callback(Output('vis1','figure'), 
               [Input("filters", "value")])
