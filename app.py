@@ -201,22 +201,28 @@ def get_buy_sell(ticker):
 def performance_chart(ticker='TSLA'):
 
     #ticker = 'NG'
-
-    #portfolio = pd.read_csv("https://raw.githubusercontent.com/addenergyx/datasets/main/trading%20data%20export%20with%20results.csv", parse_dates=['Trading day'], dayfirst=True)
     portfolio = pd.read_csv("trading data export with results.csv", parse_dates=['Trading day'], dayfirst=True)
+    #portfolio = pd.read_csv("https://raw.githubusercontent.com/addenergyx/datasets/main/trading%20data%20export%20with%20results.csv", parse_dates=['Trading day'], dayfirst=True)
 
-    buys, sells = get_buy_sell(ticker) 
-
-    start = datetime(2020, 2, 7)
-    end = datetime.now()    
-
-    yf_symbol = portfolio[portfolio['Ticker'] == ticker]['YF_TICKER'].values[0]    
-
-    index = web.DataReader(yf_symbol, 'yahoo', start, end)
-    index = index.reset_index()
-
-    index['Midpoint'] = (index['High'] + index['Low']) / 2
-
+    
+    if ticker=='TSLA':
+        buys = pd.read_csv("buys.csv")
+        sells = pd.read_csv("sells.csv")
+        index = pd.read_csv("tesla.csv")  
+           
+    else:
+        buys, sells = get_buy_sell(ticker) #Need to make this quicker
+    
+        start = datetime(2020, 2, 7)
+        end = datetime.now()    
+    
+        yf_symbol = portfolio[portfolio['Ticker'] == ticker]['YF_TICKER'].values[0]    
+    
+        index = web.DataReader(yf_symbol, 'yahoo', start, end)
+        index = index.reset_index()
+    
+        index['Midpoint'] = (index['High'] + index['Low']) / 2
+    
     buy_target = []
     sell_target = []
 
