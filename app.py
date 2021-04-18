@@ -22,7 +22,7 @@ from plotly.subplots import make_subplots
 import calendar
 #pd.options.mode.chained_assignment = None  # default='warn'
 
-def vis1():
+def vis1(filters='Returns'):
     seasonality = pd.read_csv("https://raw.githubusercontent.com/addenergyx/datasets/main/trading%20data%20export%20with%20results.csv", parse_dates=['Trading day'], dayfirst=True)
 
     seasonality['weekday'] = seasonality['Trading day'].apply(lambda x :calendar.day_name[x.weekday()])
@@ -54,9 +54,12 @@ def vis1():
     
     seasonality_df['Returns'] = seasonality_df['Returns'].fillna(0)
     
+    crange = [-100,100] if filters == 'Returns' else [0,1]
+    mpoint = 0 if filters == 'Returns' else 0.5
+    
     fig = px.scatter(seasonality_df, y="weekday", x="Trading_time",
-	         size="Count", color="Returns", color_continuous_scale='RdBu', color_continuous_midpoint=0,
-             size_max=40, range_color=[-100,100]
+	         size="Count", color=filters, color_continuous_scale='RdBu', color_continuous_midpoint=mpoint,
+             size_max=40, range_color=crange
                  )
 
     fig.update_yaxes(title='Weekday', categoryorder='array', categoryarray= ['Friday', 'Thursday', 'Wednesday', 'Tuesday', 'Monday'])
@@ -338,6 +341,15 @@ app.layout = html.Div([
     
     html.H1("Visualisation 1 (V1)"),
     html.H3("Trade volumes by day and hour of week"),
+    dcc.RadioItems(
+    options=[
+        {'label': 'Profit/Loss', 'value': 'Returns'},
+        {'label': 'Buy/Sell', 'value': 'pct_buy'},
+    ],
+    value='Returns',
+    labelStyle={'display': 'inline-block'},
+    id='filters'
+    ),
     dcc.Graph(id='vis1', figure=vis1()),
     
     html.H1("Visualisation 2 (V2)"),
@@ -394,6 +406,11 @@ app.layout = html.Div([
 #               [Input("colours", "value")])
 # def event_b(colour):
 #     return vis4(colour)
+
+@app.callback(Output('vis1','figure'), 
+              [Input("filters", "value")])
+def event_c(choice):
+    return vis1(choice)
 
 # Run app and display result inline in the notebook
 if __name__ == '__main__':
