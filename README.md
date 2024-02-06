@@ -1,16 +1,9 @@
 # Data Visualization Project Summary
 
-David Adeniji david.adeniji@city.ac.uk
-
 Visualisations available at https://data-viz-app.onrender.com/ & 'Visualisations.html'
 
 Please note web server hosting the visualisations close after 15min of inactivity and take a few seconds to load back up
 
-### Task
-
-You should complete this datavis project summary document and submit it, along with any necessary supplementary files to Moodle by **Sunday 18th April, 5pm UK time (16:00 GMT)**. Submissions will be awarded up to **80 marks** towards your coursework assessment total.
-
-You are also encouraged to regularly commit and push changes to your datavis project throughout the term as you develop your project.
 
 ### Questions
 
